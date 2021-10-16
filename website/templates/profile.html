@@ -1,0 +1,172 @@
+<!doctype html>
+	<html lang="en">
+	{% include 'shead.html' %}
+	<body>
+		{% include 'toast/message.html' %}
+		<!-- Loading wrapper start -->
+		<div id="loading-wrapper">
+			<div class="spinner-border"></div>
+			Loading...
+		</div>
+		<!-- Loading wrapper end -->
+		
+		<!-- Page wrapper start -->
+		<div class="page-wrapper">
+			
+			<!-- Sidebar wrapper start -->
+			{% include 'sidebar.html' %}
+			<!-- Sidebar wrapper end -->
+
+			<!-- *************
+				************ Main container start *************
+				************* -->
+				<div class="main-container">
+
+					<!-- Page header starts -->
+					{% include 'header.html' %}
+					<!-- Page header ends -->
+
+					<!-- Content wrapper scroll start -->
+					<div class="content-wrapper-scroll">
+
+						<!-- Content wrapper start -->
+						<div class="content-wrapper">
+
+							<!-- Row start -->
+							<div class="row gutters">
+								<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+
+									<div class="profile-header">
+										<h1>Welcome, {{user.full_name}}!!</h1>
+										<div class="profile-header-content">
+											<div class="profile-header-tiles">
+												<div class="row gutters">
+													<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+														<div class="profile-tile">
+															<span class="icon">
+																<i class="icon-server"></i>
+															</span>
+															<h6>Name - <span>{{user.full_name}}</span></h6>
+														</div>
+													</div>
+													<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+														<div class="profile-tile">
+															<span class="icon">
+																<i class="icon-map-pin"></i>
+															</span>
+															<h6>Location - <span>{{user.profile.address}}</span></h6>
+														</div>
+													</div>
+													<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+														<div class="profile-tile">
+															<span class="icon">
+																<i class="icon-phone1"></i>
+															</span>
+															<h6>Phone - <span>{{user.profile.mobile}}</span></h6>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="profile-avatar-tile">
+												<img src="{{url_for('static', filename='uploads/') }}{{user.profile.image64}}" class="img-fluid" alt="User Profile" />
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+							<!-- Row end -->
+							
+							<!-- Row start -->
+							<div class="row gutters">
+								<div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12">
+									<!-- Row start -->
+									<form action="{{url_for('views.profile')}}" enctype="multipart/form-data" method="post">
+									<div class="accordion-body">
+										<div class="field-wrapper">
+											<input type="text" {% if user.profile.address == None %} placeholder="Enter Address" {% else %} value="{{user.profile.address}}" {% endif %} name="address" />
+											<div class="field-placeholder">Address</div>
+										</div>
+
+										<div class="field-wrapper">
+											<select name="state">
+												<option>Select State</option>
+												<option>Ondo</option>
+												<option>Lagos</option>
+											</select>
+											<div class="field-placeholder">State</div>
+										</div>
+
+										<div class="field-wrapper">
+											<input type="text" name="mobile" {% if user.profile.mobile == None %} placeholder="Enter Mobile Number" {% else %} value="{{user.profile.mobile}}" {% endif %} />
+											<div class="field-placeholder">Mobile Number</div>
+										</div>
+										<div class="field-wrapper">
+											<input type="file" name="file" />
+											<div class="field-placeholder">Upload Image</div>
+										</div>
+										<div class="field-wrapper m-0">
+											<button class="btn btn-primary stripes-btn">Save</button>
+										</div>
+									</div>
+									</form>
+									<!-- Row end -->
+								</div>
+								<div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
+									<!-- Row start -->
+									<div class="row gutters">
+										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+											<!-- Card start -->
+											<div class="stats-tile4 min-height">                                            
+												<div class="stats-icon4">
+													<i class="icon-receipt"></i>
+												</div>
+												<h3>2</h3>
+												<h4>Certifications</h4>
+											</div>
+											<!-- Card end -->
+										</div>
+										<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+											<!-- Card start -->
+											<div class="stats-tile4 min-height">                                            
+												<div class="stats-icon4">
+													<i class="icon-stars"></i>
+												</div>
+												<h3>7</h3>
+												<h4>Awards</h4>
+											</div>
+											<!-- Card end -->
+										</div>
+										
+									</div>
+									<!-- Row end -->                                
+								</div>
+							</div>
+							<!-- Row end -->
+
+						</div>
+						<!-- Content wrapper end -->
+
+						<!-- App Footer start -->
+						{% include 'footer.html' %}
+						<!-- App footer end -->
+
+					</div>
+					<!-- Content wrapper scroll end -->
+
+				</div>
+			<!-- *************
+				************ Main container end *************
+				************* -->
+
+			</div>
+			<!-- Page wrapper end -->
+
+		<!-- *************
+			************ Required JavaScript Files *************
+			************* -->
+			<!-- Required jQuery first, then Bootstrap Bundle JS -->
+			{% include 'foot.html' %}
+
+		</body>
+		</html>
