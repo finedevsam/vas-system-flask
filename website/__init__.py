@@ -1,14 +1,19 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_manager
+from os import environ, path
+from dotenv import load_dotenv
+
+basedir = path.abspath(path.dirname('vas'))
+load_dotenv(path.join(basedir, '.env'))
 
 
 db = SQLAlchemy()
 
-db_user = 'root'
-db_pass = 'victoria1992'
-db_host = 'localhost'
-db_name = 'vas'
+db_user = environ.get('DB_USER')
+db_pass = environ.get('DB_PASS')
+db_host = environ.get('DB_HOST')
+db_name = environ.get('DB_NAME')
 
 def create_app():
     

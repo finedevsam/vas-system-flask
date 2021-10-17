@@ -67,5 +67,6 @@ def signup():
         return redirect(url_for('auth.signup'))
             
     else:
+        print(request.url_root)
         return render_template("signup.html")
 

@@ -20,8 +20,8 @@ class Email:
 
 
     def registration_email(self, email, fullname, tokens, **kwargs):
-        url = request.url
-        verify_link = f'http://{url}/verifyaccount?email={email}&token={tokens}'
+        url = request.url_root
+        verify_link = f'http://{url}verifyaccount?email={email}&token={tokens}'
         """ Sending Verification Email """
         html_content = render_template(
             'email/verify.html', data={'verify_link': verify_link, 'fullname': fullname}, **kwargs)
