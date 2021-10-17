@@ -1,6 +1,7 @@
 from flask import Flask, Blueprint, render_template, redirect, flash, request
 from sqlalchemy.sql.functions import user
 from .funtion.user_manager import UserManager
+from .funtion.product_manager import ProductManager
 from flask.helpers import url_for
 from werkzeug.utils import secure_filename
 from .models import *
@@ -11,6 +12,7 @@ dest_dir = os.path.join('uploads')
 
 views = Blueprint("views", __name__)
 users = UserManager()
+product = ProductManager()
 
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
@@ -51,6 +53,37 @@ def profile():
 
     
 @views.route('/products/', methods=['GET', 'POST'])
+@login_required
 def products():
     current_page = 'current-page'
-    return render_template('products.html', product_current_page=current_page)
+    all_product = product.display_all_product()
+    return render_template('products.html', 
+                           product_current_page=current_page,
+                           all_product=all_product
+                           )
+
+
+
+@views.route('/addproducts/', methods=['GET', 'POST'])
+def add_products():
+    
+    ## check the request method and get the form data if the it's POST request ##
+    if request.method == "POST":
+        product_name = request.form.get('product_name')
+        product_category = request.form.get('product_category')
+        charges = request.form.get('charges')
+        live_endpoint = request.form.get('live_endpoint')
+        test_endpoint = request.form.get('test_endpoint')
+        
+        ## Call the add_product function ##
+        product.add_product(product_name, product_category, charges, live_endpoint, test_endpoint)
+        return redirect(url_for('views.add_products'))
+    else:
+        
+        return render_template('addproduct.html')
+    
+    
+
+@views.route('/add_my_product/<code>', methods=['GET', 'POST'])
+def add_my_product(code):
+    pass
