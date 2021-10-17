@@ -2,9 +2,13 @@ from flask import Blueprint, flash, request, redirect
 from flask import render_template
 from flask.helpers import url_for
 from .models import *
+from .funtion.validator import Validator
+from .funtion.user_manager import UserManager
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import login_required, login_user, logout_user, current_user
 
+validator = Validator()
+user = UserManager()
 auth = Blueprint("auth", __name__)
 
 
@@ -46,24 +50,20 @@ def signup():
         email = request.form.get('email')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
-        
-        if "@" not in email:
-            flash("Invalid Email", category="error")
-            
-        elif User.query.filter_by(email=email).first():
-            flash("Email Taken", category='error')
-            
-        elif password1 != password2:
+
+        if password1 != password2:
             flash("Password is not Match", category="error")
-            
+        
+        ## Check the length of Fullname ##    
         elif len(fullname) < 2:
             flash("Fullname must be greater than 2 character", category="error")
-            
+        
+        ## Call the Validation Password to Validate Password ##    
+        elif validator.passwordValidator(password1) == False:
+            flash("Weak password. Password must be with 8-15 character and must contain special character", category='error')    
         else:
-            new_user = User(full_name=fullname, email=email, password=generate_password_hash(password1, method='sha256'))
-            db.session.add(new_user)
-            db.session.commit()
-            flash("Registration Successfully", category="success")
+            ## Call the register function ##
+            user.register(fullname, email, password1)
         return redirect(url_for('auth.signup'))
             
     else:

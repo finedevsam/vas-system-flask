@@ -79,11 +79,11 @@ def add_products():
         product.add_product(product_name, product_category, charges, live_endpoint, test_endpoint)
         return redirect(url_for('views.add_products'))
     else:
-        
         return render_template('addproduct.html')
     
     
 
 @views.route('/add_my_product/<code>', methods=['GET', 'POST'])
 def add_my_product(code):
-    pass
+    product.customer_add_product(code)
+    return redirect(url_for('views.products'))

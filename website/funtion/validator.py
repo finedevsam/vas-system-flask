@@ -1,4 +1,6 @@
 import re
+from website.models import *
+from flask import flash
 
 
 def get_client_ip(request):
@@ -45,3 +47,15 @@ class Validator:
                 return False
         else:
             return False
+        
+        
+    def check_email(self, email):
+        if "@" not in email:
+            flash("Invalid Email format", category="error")
+        
+        elif User.query.filter_by(email=email).first():
+            flash("Email Taken", category='error')
+            
+        else:
+            return True
+        pass
